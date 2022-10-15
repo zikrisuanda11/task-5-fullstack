@@ -21,22 +21,21 @@ use App\Http\Controllers\Auth\UserController;
 //     return $request->user();
 // });
 
-Route::middleware('auth:api')->group(function () {
-    Route::post('logout', [UserController::class, 'logout']);
-    Route::get('article', [ArticleController::class, 'index']);
-});
-
-Route::post('article', [ArticleController::class, 'store']);
-Route::get('article/{id}', [ArticleController::class, 'show']);
-Route::put('article/{id}', [ArticleController::class, 'update']);
-Route::delete('article/{id}', [ArticleController::class, 'destroy']);
-
-Route::get('category', [CategoryController::class, 'index']);
-Route::post('category', [CategoryController::class, 'store']);
-Route::get('category/{id}', [CategoryController::class, 'show']);
-Route::put('category/{id}', [CategoryController::class, 'update']);
-Route::delete('category/{id}', [CategoryController::class, 'destroy']);
-
 Route::post('register', [UserController::class, 'register']);
 Route::post('login', [UserController::class, 'login']);
 
+Route::middleware('auth:api')->group(function () {
+    //article    
+    Route::get('article', [ArticleController::class, 'index']);
+    Route::post('article', [ArticleController::class, 'store']);
+    Route::get('article/{id}', [ArticleController::class, 'show']);
+    Route::put('article/{id}', [ArticleController::class, 'update']);
+    Route::delete('article/{id}', [ArticleController::class, 'destroy']);
+
+    //category
+    Route::get('category', [CategoryController::class, 'index']);
+    Route::post('category', [CategoryController::class, 'store']);
+    Route::get('category/{id}', [CategoryController::class, 'show']);
+    Route::put('category/{id}', [CategoryController::class, 'update']);
+    Route::delete('category/{id}', [CategoryController::class, 'destroy']);
+});
