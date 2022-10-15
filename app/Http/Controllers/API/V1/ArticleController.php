@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\API\V1;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\ArticleRequest;
 use App\Models\Article;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\ArticleRequest;
 use Symfony\Component\HttpFoundation\Response;
 
 class ArticleController extends Controller
@@ -17,7 +18,7 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $data = Article::all();
+        $data = Article::paginate(15);
 
         if(!$data == null)
         {

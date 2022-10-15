@@ -6,12 +6,14 @@ use App\Models\Category;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\TestCase;
 
 class CategoryTest extends TestCase
 {
     use WithFaker;
     use RefreshDatabase;
+    use WithoutMiddleware;
     /**
      * A basic feature test example.
      *
