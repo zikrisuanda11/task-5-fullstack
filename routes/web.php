@@ -1,6 +1,12 @@
 <?php
 
+use App\Http\Controllers\API\V1\ArticleController;
+use App\Http\Controllers\API\V1\CategoryController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PageController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +19,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+Auth::routes();
+
+Route::get('/', [HomeController::class, 'index'])->name('home');
+
+Route::get('article', [PageController::class, 'article']);
+Route::get('category', [PageController::class, 'category']);
+
+// Route::get('article', ArticleController::class, 'article');
+// Route::get('category', CategoryController::class, 'category');
