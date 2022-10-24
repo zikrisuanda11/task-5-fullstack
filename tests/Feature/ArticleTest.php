@@ -46,13 +46,12 @@ class ArticleTest extends TestCase
 
         $update = [
             'title' => 'sembarang',
-            'content' => 'ini content',
-            'image_url' => 'ini url',
+            'content' => 'ini content',            
             'id_user' => 1,
             'id_category' => 1
         ];
 
-        $this->put("api/article/$data->id", $update)->assertStatus(Response::HTTP_OK);
+        $this->post("api/article/$data->id", $update)->assertStatus(Response::HTTP_OK);
     }
 
     public function testShowDetailArticle()

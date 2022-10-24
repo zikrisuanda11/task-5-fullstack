@@ -27,5 +27,15 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('article', [PageController::class, 'article']);
 Route::get('category', [PageController::class, 'category']);
 
-// Route::get('article', ArticleController::class, 'article');
-// Route::get('category', CategoryController::class, 'category');
+Route::get('article-data', [ArticleController::class, 'getArticleData']);
+Route::get('article-data/{id}', [ArticleController::class, 'edit']);
+Route::post('article', [ArticleController::class, 'store']);
+Route::post('article/{id}', [ArticleController::class, 'update']);
+Route::delete('article/{id}', [ArticleController::class, 'destroy']);
+
+//category
+Route::get('category-data', [CategoryController::class, 'index']);
+Route::get('category-data/{id}', [CategoryController::class, 'edit']);
+Route::post('category', [CategoryController::class, 'store']);
+Route::put('category/{id}', [CategoryController::class, 'update']);
+Route::delete('category/{id}', [CategoryController::class, 'destroy']);

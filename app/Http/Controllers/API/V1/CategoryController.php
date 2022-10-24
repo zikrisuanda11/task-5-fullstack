@@ -15,21 +15,15 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+     
     public function index()
     {
         $data = Category::all();
 
-        if(!$data == null)
-        {
-            return response()->json([
-                'message' => 'Success Get All Data',
-                'data' => $data
-            ], Response::HTTP_OK);
-        }
         return response()->json([
-            'message' => 'Failed Get All Data!',
-        ], Response::HTTP_NOT_FOUND);
-
+            'message' => 'Success Get All Data',
+            'data' => $data
+        ], 200);
     }
 
     /**
@@ -60,11 +54,11 @@ class CategoryController extends Controller
             return response()->json([
                 'message' => 'Success Create Data',
                 'data' => $data
-            ], Response::HTTP_CREATED);
+            ], 201);
         }
         return response()->json([
             'message' => 'Failed Store Data!'
-        ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        ], 422);
     }
 
     /**
@@ -82,11 +76,11 @@ class CategoryController extends Controller
             return response()->json([
                 'message' => 'Success Get Data',
                 'data' => $data
-            ], Response::HTTP_OK);
+            ], 200);
         }
         return response()->json([
             'message' => 'Failed Find Data!'
-        ], Response::HTTP_NOT_FOUND);
+        ], 404);
     }
 
     /**
@@ -97,7 +91,10 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        //
+        $data = Category::where('id', '=',$id)->first();
+        return response()->json([
+            'data' => $data
+        ], 200);
     }
 
     /**
@@ -120,11 +117,11 @@ class CategoryController extends Controller
             return response()->json([
                 'message' => 'Success Update Data',
                 'data' => $data
-            ], Response::HTTP_OK);
+            ], 200);
         }
         return response()->json([
             'message' => 'Failed Update Data!'
-        ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        ], 422);
     }
 
     /**
@@ -137,14 +134,9 @@ class CategoryController extends Controller
     {
         $data = Category::find($id);
         $data->delete();
-        if(!$data == null)
-        {
-            return response()->json([
-                'message' => 'Success Delete Data'
-            ], Response::HTTP_OK);
-        }
         return response()->json([
-            'message' => 'Failed Delete Data!'
-        ], Response::HTTP_UNPROCESSABLE_ENTITY);
+            'message' => 'Success Delete Data',
+            'status' => true,
+        ], 200);        
     }
 }

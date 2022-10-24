@@ -11,7 +11,7 @@
     @include('includes.style')
 </head>
 <body class="g-sidenav-show  bg-gray-100">
-    @include('includes.navbar')
+    {{-- @include('includes.navbar') --}}
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
@@ -67,12 +67,15 @@
                                     <button type="submit" class="btn btn-primary">
                                         {{ __('Login') }}
                                     </button>
-    
-                                    @if (Route::has('password.request'))
+
+                                    <a href="{{url('register')}}" class="btn btn-secondary">
+                                        {{__('Register')}}
+                                    </a>                                                                    
+                                    {{-- @if (Route::has('password.request'))
                                         <a class="btn btn-link" href="{{ route('password.request') }}">
                                             {{ __('Forgot Your Password?') }}
                                         </a>
-                                    @endif
+                                    @endif --}}
                                 </div>
                             </div>
                         </form>

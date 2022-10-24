@@ -12,7 +12,7 @@
 </head>
 <body class="g-sidenav-show  bg-gray-100">
 
-    @include('includes.navbar')
+    {{-- @include('includes.navbar') --}}
 
     <div class="container">
         <div class="row justify-content-center">
