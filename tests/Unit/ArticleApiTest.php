@@ -13,7 +13,7 @@ use LDAP\Result;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
 
-class ArticleTest extends TestCase
+class ArticleApiTest extends TestCase
 {
     use WithFaker;
     use RefreshDatabase;
