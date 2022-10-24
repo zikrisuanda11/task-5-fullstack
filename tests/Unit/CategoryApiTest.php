@@ -9,7 +9,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\TestCase;
 
-class CategoryTest extends TestCase
+class CategoryApiTest extends TestCase
 {
     use WithFaker;
     use RefreshDatabase;
