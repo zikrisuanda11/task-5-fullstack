@@ -24,12 +24,13 @@ use App\Http\Controllers\Auth\UserController;
 Route::post('register', [UserController::class, 'register']);
 Route::post('login', [UserController::class, 'login']);
 
+
 Route::middleware('auth:api')->group(function () {
-    //article    
-    Route::get('article', [ArticleController::class, 'index']);
+    //article
     Route::post('article', [ArticleController::class, 'store']);
+    Route::post('article/{id}', [ArticleController::class, 'update']);
+    Route::get('article', [ArticleController::class, 'index']);
     Route::get('article/{id}', [ArticleController::class, 'show']);
-    Route::put('article/{id}', [ArticleController::class, 'update']);
     Route::delete('article/{id}', [ArticleController::class, 'destroy']);
 
     //category

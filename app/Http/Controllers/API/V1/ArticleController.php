@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Models\Article;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\File;
 use App\Http\Requests\ArticleRequest;
+use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Response;
 
 class ArticleController extends Controller
@@ -16,6 +16,14 @@ class ArticleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function getArticleData()
+    {
+        $data = Article::all();        
+        return response()->json([
+            'data' => $data
+        ], 200);        
+    }
+
     public function index()
     {
         $data = Article::paginate(15);
@@ -25,11 +33,11 @@ class ArticleController extends Controller
             return response()->json([
                 'message' => 'Success Get All Data',
                 'data' => $data
-            ], Response::HTTP_OK);
+            ], 200);
         }
         return response()->json([
             'message' => 'Failed Get Data!'
-        ], Response::HTTP_NOT_FOUND);
+        ], 404);
 
     }
 
@@ -51,18 +59,36 @@ class ArticleController extends Controller
      */
     public function store(ArticleRequest $request)
     {
-        $data = Article::create($request->only('title', 'content', 'image_url', 'id_user', 'id_category'));
-
-        if(!$data == null)
-        {
+        if($request->file('image')){
+            $image = Storage::put('public/image', $request->file('image'));
+            $imageUrl = Storage::url($image);
+            $data = Article::create([
+                'title' => $request->title,
+                'content' => $request->content,
+                'image' => $imageUrl,
+                'id_user' => $request->id_user,
+                'id_category' => $request->id_category
+            ]);
+    
             return response()->json([
                 'message' => 'Success Store All Data',
+                'status' => true,
                 'data' => $data
-            ], Response::HTTP_CREATED);
+            ], 201);
         }
+        $data = Article::create([
+            'title' => $request->title,
+            'content' => $request->content,            
+            'id_user' => $request->id_user,
+            'id_category' => $request->id_category
+        ]);
+
         return response()->json([
-            'message' => 'Failed Store Data!',
-        ], Response::HTTP_UNPROCESSABLE_ENTITY);
+            'message' => 'Success Store All Data',
+            'status' => true,
+            'data' => $data
+        ], 201);
+
 
     }
 
@@ -81,11 +107,11 @@ class ArticleController extends Controller
             return response()->json([
                 'message' => 'Success Get Data',
                 'data' => $data
-            ], Response::HTTP_OK);
+            ], 200);
         }
         return response()->json([
             'message' => 'Not Found!',
-        ], Response::HTTP_NOT_FOUND);
+        ], 404);
 
     }
 
@@ -97,7 +123,10 @@ class ArticleController extends Controller
      */
     public function edit($id)
     {
-        //
+        $data = Article::where('id', '=',$id)->first();
+        return response()->json([
+            'data' => $data
+        ], 200);
     }
 
     /**
@@ -111,24 +140,36 @@ class ArticleController extends Controller
     {
         $data = Article::find($id);
 
-        $data->update($request->only(
-            'title', 
-            'content', 
-            'image_url', 
-            'id_user', 
-            'id_category'
-        ));
-
-        if(!$data == null)
-        {
+        if($request->file('image')){
+            $image = Storage::put('public/image', $request->file('image'));
+            $imageUrl = Storage::url($image);
+    
+            $data->update([
+                'title' => $request->title,
+                'content' => $request->content,
+                'image' => $imageUrl,
+                'id_user' => $request->id_user,
+                'id_category' => $request->id_category
+            ]);
+    
             return response()->json([
-                'message' => 'Success Update Data',
+                'message' => 'Success Update Data 1',
+                'status' => true,
                 'data' => $data
-            ], Response::HTTP_OK);
+            ]);
         }
+        $data->update([
+            'title' => $request->title,
+            'content' => $request->content,
+            'id_user' => $request->id_user,
+            'id_category' => $request->id_category
+        ]);
         return response()->json([
-            'message' => 'Failed Update data!',
-        ], Response::HTTP_UNPROCESSABLE_ENTITY);
+            'message' => 'Success Update Data 2',
+            'status' => true,
+            'data' => $data
+        ], 200);
+
     }
 
     /**
@@ -140,15 +181,16 @@ class ArticleController extends Controller
     public function destroy($id)
     {
         $data = Article::find($id);
-
-        if(!$data == null)
-        {
+        $file = File::exists(public_path($data->image));
+        if(!$file){
             return response()->json([
-                'message' => 'Success Delete Data',
-            ], Response::HTTP_OK);
+                'status' => false
+            ]);
         }
+        $data->delete();
         return response()->json([
-            'message' => 'Failed Delete Data!',
-        ], Response::HTTP_UNPROCESSABLE_ENTITY);
+            'message' => 'Success Delete Data',
+            'status' => true
+        ], 200);
     }
 }
